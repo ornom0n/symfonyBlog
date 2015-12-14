@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\BlogPost;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -30,8 +31,14 @@ class DefaultController extends Controller
         // $em->flush();
 
         // replace this example code with whatever you need
+
+        $blogRepository = $this->getDoctrine()
+            ->getRepository( 'AppBundle:BlogPost' );
+
+        $blogPosts = $blogRepository->findAll();
+
         return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+            'blogPosts' => $blogPosts
         ));
     }
 
@@ -44,7 +51,7 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder($newPost)
             ->add( 'title', TextType::class )
             ->add( 'user', TextType::class )
-            ->add( 'message', TextType::class )
+            ->add( 'message', TextareaType::class )
             ->add( 'save', SubmitType::class, array( 'label' => 'Create post!' ) )
             ->getForm();
 
