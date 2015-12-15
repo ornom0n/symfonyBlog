@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1> Best Blog </h1>
+    <p><a href="
+            {{ path( 'add_blog_post' ) }}"> Add post </a>
+        <a href="
+            {{ path( 'add_blog_post' ) }}"> Login </a>
+
+    </p>
     {% for blogPost in blogPosts %}
         <h3> {{blogPost.title}} <a href="
-            {{ path( 'delete_blog_post', 
-            { 'postId': blogPost.id } ) }}"> Delete </a>
+                {{ path( 'delete_blog_post', 
+                { 'postId': blogPost.id } ) }}"> Delete </a>
              <a href="
-            {{ path( 'edit_blog_post', 
-            { 'postId': blogPost.id } ) }}"> EDIT </a></h3>
+                {{ path( 'edit_blog_post', 
+                { 'postId': blogPost.id } ) }}"> EDIT </a></h3>
         <p>{{blogPost.user}}</p>
         <p>{{blogPost.date|date( "m/d/Y" )}}</p>
         <p>{{blogPost.message}}</p>
