@@ -23,8 +23,19 @@ class DefaultController extends Controller
             ->getRepository( 'AppBundle:BlogPost' )
             ->findAll();
 
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+
         return $this->render('default/index.html.twig', array(
             'blogPosts' => $blogPosts,
+            'last_username' => $lastUsername,
+            'error'         => $error,
         ));
     }
 
@@ -91,11 +102,6 @@ class DefaultController extends Controller
         $editObject = $em->getRepository('AppBundle:BlogPost')
             ->find($editId);
         
-        $defaults = array(
-            'title' => $editObject->getTitle(),
-            'user' => $editObject->getUser(),
-            'message' => $editObject->getMessage(),
-            );
 
         
         $form = $this->createFormBuilder( $newPost )
@@ -112,7 +118,7 @@ class DefaultController extends Controller
             $editObject->setMessage( $form->getData()->getMessage() );
             $editObject->setUser( $form->getData()->getUser() );
             $editObject->setTitle( $form->getData()->getTitle() );
-            $editObject->setDate( new \DateTime('now') );
+            
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();

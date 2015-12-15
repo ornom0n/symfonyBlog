@@ -1,20 +1,35 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
-
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: plaintext
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory:
-            memory: ~
 
+    providers:
+        our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: username
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            anonymous: ~
+            provider: our_db_provider
+            form_login:
+                login_path: /
+                check_path: /login_check
 
         main:
+            pattern: ^/
+            http_basic: ~
             anonymous: ~
+            provider: our_db_provider
+            form_login:
+                login_path: /
+                check_path: /login_check
             # activate different ways to authenticate
 
             # http_basic: ~
