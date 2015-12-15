@@ -2,9 +2,14 @@
 
 {% block body %}
     {% for blogPost in blogPosts %}
-        <h3> {{blogPost.title}} </h3>
+        <h3> {{blogPost.title}} <a href="
+            {{ path( 'delete_blog_post', 
+            { 'postId': blogPost.id } ) }}"> Delete </a>
+             <a href="
+            {{ path( 'edit_blog_post', 
+            { 'postId': blogPost.id } ) }}"> EDIT </a></h3>
         <p>{{blogPost.user}}</p>
-        <p>{{blogPost.date|date("m/d/Y")}}</p>
+        <p>{{blogPost.date|date( "m/d/Y" )}}</p>
         <p>{{blogPost.message}}</p>
 
     {% endfor %}
