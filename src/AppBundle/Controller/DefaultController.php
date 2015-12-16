@@ -25,10 +25,8 @@ class DefaultController extends Controller
 
         $authenticationUtils = $this->get('security.authentication_utils');
 
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('default/index.html.twig', array(
@@ -85,9 +83,6 @@ class DefaultController extends Controller
             $em->remove($deletionObject);
             $em->flush();
         }
-        
-
-
 
         return $this->render('default/delete-blog-post.html.twig' );
 
@@ -105,8 +100,6 @@ class DefaultController extends Controller
         $editObject = $em->getRepository('AppBundle:BlogPost')
             ->find($editId);
         
-
-        
         $form = $this->createFormBuilder( $newPost )
             ->add( 'title', TextType::class, array( 'data' => $editObject->getTitle() ) )
             ->add( 'user', TextType::class, array( 'data' => $editObject->getUser() ) )
@@ -117,7 +110,6 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
         if( $form->isSubmitted()  && $form->isValid() ){
-            //$editObject = $form->getData();
             $editObject->setMessage( $form->getData()->getMessage() );
             $editObject->setUser( $form->getData()->getUser() );
             $editObject->setTitle( $form->getData()->getTitle() );
@@ -128,8 +120,6 @@ class DefaultController extends Controller
 
             return $this->redirectToRoute('homepage');
         }
-
-
 
         return $this->render('default/edit-blog-post.html.twig', array(
             'form' => $form->createView(),
