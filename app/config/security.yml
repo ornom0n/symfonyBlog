@@ -21,7 +21,6 @@ security:
             form_login:
                 login_path: /
                 check_path: /login_check
-
         main:
             pattern: ^/
             http_basic: ~
@@ -30,6 +29,11 @@ security:
             form_login:
                 login_path: /
                 check_path: /login_check
+            logout:
+                path:   /logout
+                target: /
+
+
             # activate different ways to authenticate
 
             # http_basic: ~

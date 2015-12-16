@@ -22,7 +22,7 @@ class DefaultController extends Controller
         $blogPosts = $this->getDoctrine()
             ->getRepository( 'AppBundle:BlogPost' )
             ->findAll();
-
+        $blogPosts = array_reverse( $blogPosts );
         $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
@@ -30,7 +30,6 @@ class DefaultController extends Controller
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
 
         return $this->render('default/index.html.twig', array(
             'blogPosts' => $blogPosts,
@@ -43,6 +42,8 @@ class DefaultController extends Controller
      * @Route("/add-blog-post", name="add_blog_post")
      */
     public function addBlogPostAction( Request $request ){
+
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
         $newPost = new BlogPost();
         
         $form = $this->createFormBuilder($newPost)
