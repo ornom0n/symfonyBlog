@@ -21,8 +21,8 @@ class DefaultController extends Controller
 
         $blogPosts = $this->getDoctrine()
             ->getRepository( 'AppBundle:BlogPost' )
-            ->findAll();
-        $blogPosts = array_reverse( $blogPosts );
+            ->findBy([], ['date' => 'desc']);
+
         $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
@@ -75,6 +75,7 @@ class DefaultController extends Controller
      * @Route("/delete-blog-post", name="delete_blog_post")
      */
     public function deleteBlogPostAction( Request $request ){
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
         $deletionId = $request->query->get('postId');
 
         $em = $this->getDoctrine()->getManager();
@@ -96,6 +97,7 @@ class DefaultController extends Controller
      * @Route("/edit-blog-post", name="edit_blog_post")
      */
     public function editBlogPostAction( Request $request ){
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
         $newPost = new BlogPost();
         $editId = $request->query->get('postId');
 

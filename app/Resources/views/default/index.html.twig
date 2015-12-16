@@ -35,13 +35,13 @@
         {% if is_granted('ROLE_USER') %}
             <a href="
                 {{ path( 'delete_blog_post', 
-                { 'postId': blogPost.id } ) }}"> Delete </a>&nbsp;
+                { 'postId': blogPost.id } ) }}"> Delete</a>&nbsp;
             <a href="
                 {{ path( 'edit_blog_post', 
                 { 'postId': blogPost.id } ) }}"> Edit </a>
         {% endif %}
         <p>{{blogPost.user}}</p>
-        <p>{{blogPost.date|date( "m/d/Y" )}}</p>
+        <p>{{blogPost.date|date( "m/d/Y G:i" )}}</p>
         <p>{{blogPost.message}}</p>
         <hr>
     {% endfor %}

@@ -32,7 +32,7 @@ class BlogPost
     protected $message;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     protected $date;
 
